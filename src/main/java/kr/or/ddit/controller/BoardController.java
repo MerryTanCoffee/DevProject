@@ -118,7 +118,7 @@ public class BoardController {
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
 	public String remove() {
 		log.info("HTTP 메서드 매핑");
-		log.info("modify()");
+		log.info("remove()");
 		return "success";
 	}
 	
@@ -200,6 +200,7 @@ public class BoardController {
 	/*
 	 * 5. Headers 매핑
 	 * - 요청 헤더를 매핑 조건으로 지정하는 경우에는 headers 속성을 사용한다.
+	 * Header 키와 값을 매핑..
 	 * 
 	 * [환경설정] 의존관계 정의
 	 * - JSON 데이터를 처리하기 위해서 의존 라이브러리를 추가한다.

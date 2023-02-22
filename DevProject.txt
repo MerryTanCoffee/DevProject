@@ -13,7 +13,7 @@ SPRING2
 		> font는 @가 붙어 있는 폰트는 설정하지 않는다.(누워서 나오는 폰트)
 		
 	3. 웹 서버 실행 환경 설정
-		> window > preferences > server > runtiome environments
+		> window > preferences > server > runtime environments
 		> 기존 등록된 서버 삭제 후, add로 현재 사용 중인 tomcat 버전을 추가
 		> tomcat 위치 등록시, tomcat 폴더까지만 선택 후 추가
 	
@@ -34,7 +34,7 @@ SPRING2
 		> src/.../WEB-INF/web.xml : 웹 컨테이너 설정 파일
 		> src/.../WEB-INF/spring/root-context.xml : 스프링 설정 파일
 		> src/.../WEB-INF/spring/appServlet/servlet-context.xml : 스프링 웹 설정 파일
-		> src/.../WEB-INF/viewx : 뷰 파일 경로
+		> src/.../WEB-INF/view : 뷰 파일 경로
 		
 	7. 프로젝트 실행
 		> 현재까지 적용된 설정을 기반으로 에러 사항 확인하기
