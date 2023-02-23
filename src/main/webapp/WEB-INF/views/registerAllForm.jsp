@@ -9,7 +9,7 @@
 <body>
 	<h1>Register All Form</h1><hr/>
 	<form action = "/registerUser" method = "post">
-		<table boarder = "1">
+		<table border = "1">
 			<tr>
 				<th>UserID</th>
 				<td>
@@ -57,7 +57,7 @@
 			<tr>
 				<th>Foreigner</th>
 				<td>
-					<input type="text" name = "foreigner" value = "여"/>
+					<input type="checkbox" name = "foreigner"  value ="Y"/>
 				</td>
 			</tr>
 			<tr>

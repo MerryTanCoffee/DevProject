@@ -1,6 +1,7 @@
 package kr.or.ddit.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,6 +15,23 @@ public class Member {
 	private int coin = 100;
 	@DateTimeFormat(pattern ="yyyyMMdd")
 	private Date dateOfBirth;
-	private Address address;
+	private String email;
+	private String birthDay;
 	
+	private Address address;
+	private List<Card> cardList;
+	
+	private String cars;
+	private String[] carArray;
+	private List<String> carList;
+	
+	private String gender;
+	private String hobby;
+	private String[] hobbyArray;
+	private List<String> hobbyList;
+	private String developer;
+	private boolean foreigner;
+	private String nationality;
+	
+	private String introduction;
 }

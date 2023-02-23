@@ -3,16 +3,19 @@ package kr.or.ddit.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.vo.Address;
+import kr.or.ddit.vo.FileMember;
 import kr.or.ddit.vo.Member;
+import kr.or.ddit.vo.MultiFileMember;
 import kr.or.ddit.vo.register.MemberVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -443,14 +446,13 @@ public class MemberController {
 		}
 		
 		
-		if (memberVO.getForeigner() == "여") {
+		if (memberVO.getForeigner() == "Y") {
 			
 			log.info("외국인 여부 : 외국인");
 		} else {
 			log.info("외국인 여부 : 내국인");
 		}
 		
-		log.info("국적 : " + memberVO.getNationality());
 		
 		String[] carArray = memberVO.getCars();
 		
@@ -467,8 +469,8 @@ public class MemberController {
 		
 		if(hobbyArray != null) {
 			log.info("hobbyArray.length : " + hobbyArray.length);
-			for(int i = 0; i < hobbyArray.length; i++) {
-				log.info("취미 [" + i + "] : " + hobbyArray[i]);
+		for(int i = 0; i < hobbyArray.length; i++) {
+			log.info("취미 [" + i + "] : " + hobbyArray[i]);
 			} 
 		}else {
 				log.info("취미  : null");
@@ -487,4 +489,151 @@ public class MemberController {
 			log.info("memberVO.getIntroduce() : " + memberVO.getIntroduction());
 		return "success";
 	}
+	
+	/*
+	 * 8. 파일 업로드 폼 방식 요청 처리
+	 * -파일 업로드 폼 방식 요청 처리를 작성하기 전, 준비사항
+	 * 
+	 * [환경설정] 의존 관계 정의
+	 * - commons-io, commons-fileupload 라이브러리 의존 관계 등록
+	 * - web.xml 에 모든 경로에 대한 MultipartFilter 를 등록한다.
+	 * 
+	 * ## 위 설정을 진행하였는데도 에러가 나는 경우 조치 방법
+	 * 톰캣 - servers > context.xml에서 context 태그 내 해당 옵션 추가한다.
+	 * allowCasualMutipartParsing "true" path ="/"
+	 * 
+	 * ## 파일 업로드가 에러 나는 경우 조치 방법
+	 * 1. 클린~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 * 2. 파일 업로드 에 필요한 라이브러리 추가되었는지 pom.xml에서 확인
+	 * 3. web.xml에서 multipartFilter가 등록 되었는지 확인
+	 * 4. Context 태그 내 옵션이 부여 되었는지 확인
+	 */
+	
+	//1) 파일 업로드 폼 파일 요소 값을 스프링 MVC가 지원하는 MultipartFile 매개변수로 처리한다.
+	@RequestMapping(value="/registerFile01", method = RequestMethod.POST)
+	public String registerFile01(MultipartFile picture) throws Exception{
+		log.info("파일 업로드 폼 방식 요청 처리");
+		log.info("registerFile01 : ");
+		log.info("originalName : " + picture.getOriginalFilename());
+		log.info("file size : " + picture.getSize());
+		log.info("ContentType : " + picture.getContentType());
+		return "success";
+	}
+	
+	//2) 파일 업로드 폼 파일 요소 값과 텍스트필드 요소값을 스프링 MVC가 지원하는 MultipartFile 매개변수로 처리한다.
+	@RequestMapping(value="/registerFile02", method = RequestMethod.POST)
+	public String registerFile02(String userId, String password, MultipartFile picture) throws Exception{
+		log.info("파일 업로드 폼 방식 요청 처리");
+		log.info("registerFile02 : ");
+		log.info("userId : " + userId);
+		log.info("password : " + password);
+		
+		log.info("originalName : " + picture.getOriginalFilename());
+		log.info("file size : " + picture.getSize());
+		log.info("ContentType : " + picture.getContentType());
+		return "success";
+	}
+	
+	//3) 파일 업로드 폼 파일 요소 값과 텍스트 필드 요소값을 MultipartFile 매개변수와 자바빈즈 매개변수로 처리한다.
+	@RequestMapping(value="/registerFile03", method = RequestMethod.POST)
+	public String registerFile03(Member member, MultipartFile picture) throws Exception{
+		log.info("파일 업로드 폼 방식 요청 처리");
+		log.info("registerFile03 : ");
+		log.info("member.getUserId() : " + member.getUserId());
+		log.info("member.getPassword() : " + member.getPassword());
+		
+		log.info("originalName : " + picture.getOriginalFilename());
+		log.info("file size : " + picture.getSize());
+		log.info("ContentType : " + picture.getContentType());
+		return "success";
+	}
+	//4) 파일 업로드 폼 파일 요소 값과 텍스트 필드 요소값을 FileMember 타입의 자바빈즈 매개변수로 처리한다.
+	@RequestMapping(value="/registerFile04", method = RequestMethod.POST)
+	public String registerFile04(FileMember fileMember) throws Exception{
+		log.info("파일 업로드 폼 방식 요청 처리");
+		log.info("registerFile04 : ");
+		log.info("fileMember.getUserId() : " + fileMember.getUserId());
+		log.info("fileMember.getPassword() : " + fileMember.getPassword());
+		
+		MultipartFile picture = fileMember.getPicture();
+		
+		log.info("originalName : " + picture.getOriginalFilename());
+		log.info("file size : " + picture.getSize());
+		log.info("ContentType : " + picture.getContentType());
+		return "success";
+	}
+	
+	//5) 여러 개의 파일 업로드를 폼 파일 요소 값을 여러개의 MultipartFile 매개변수로 처리한다.
+	@RequestMapping(value="/registerFile05", method = RequestMethod.POST)
+	public String registerFile05(String userId, String password, MultipartFile picture, MultipartFile picture2) throws Exception{
+		log.info("파일 업로드 폼 방식 요청 처리");
+		log.info("registerFile05 : ");
+		log.info("userId : " + userId);
+		log.info("password : " + password);
+		
+		log.info("originalName1 : " + picture.getOriginalFilename());
+		log.info("file size1 : " + picture.getSize());
+		log.info("ContentType1 : " + picture.getContentType());
+		
+		log.info("originalName2 : " + picture2.getOriginalFilename());
+		log.info("file size2 : " + picture2.getSize());
+		log.info("ContentType2 : " + picture2.getContentType());
+		return "success";
+	}
+	
+	
+	//6) 여러 개의 파일 업로드를 폼 파일 요소값을 MultipartFile 타입의 요소를 가진 리스트 컬렉션타입 매개변수로 처리한다.
+	@RequestMapping(value="/registerFile06", method = RequestMethod.POST)
+	public String registerFile06(String userId, String password,List<MultipartFile> pictureList) throws Exception{
+		log.info("파일 업로드 폼 방식 요청 처리");
+		log.info("registerFile06 : ");
+		log.info("userId : " + userId);
+		log.info("password : " + password);
+		
+		for(int i = 0; i < pictureList.size(); i++) {
+			log.info("originalName : " + pictureList.get(i).getOriginalFilename());
+			log.info("file size : " + pictureList.get(i).getSize());
+			log.info("ContentType : " + pictureList.get(i).getContentType());
+			
+			
+		}
+		return "success";
+	}
+	
+	
+	//7) 여러 개의 파일 업로드 폼 파일 요소값과 텍스트 필드 요소 값을 MultipartFile 타입의 자바빈즈 클래스 매개변수로 처리한다
+	@RequestMapping(value="/registerFile07", method = RequestMethod.POST)
+	public String registerFile07(MultiFileMember multipartFileMember) throws Exception{
+		log.info("파일 업로드 폼 방식 요청 처리");
+		log.info("registerFile07 : ");
+		
+		List<MultipartFile> pictureList = multipartFileMember.getPictureList();
+		log.info("pictureList size : " +pictureList.size());
+		
+		for(int i = 0; i < pictureList.size(); i++) {
+			log.info("originalName : " + pictureList.get(i).getOriginalFilename());
+			log.info("file size : " + pictureList.get(i).getSize());
+			log.info("ContentType : " + pictureList.get(i).getContentType());
+			
+			
+		}
+		return "success";
+	}
+	
+	//8) 파일 업로드 폼 파일 요소값과 텍스트 필드 요소 값을 MultipartFile 타입의 배열  매개변수로 처리한다.
+	@RequestMapping(value="/registerFile08", method = RequestMethod.POST)
+	public String registerFile08(MultipartFile[] pictureList) throws Exception{
+		log.info("파일 업로드 폼 방식 요청 처리");
+		log.info("registerFile08 : ");
+
+		for(MultipartFile picture : pictureList) {
+			log.info("originalName : " + picture.getOriginalFilename());
+			log.info("file size : " + picture.getSize());
+			log.info("ContentType : " + picture.getContentType());
+						
+		}
+		return "success";
+	}
+	
+	
 }	

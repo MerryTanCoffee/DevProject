@@ -12,7 +12,7 @@ public class MemberVO {
 	private String password;
 	private String userName;
 	private String email;
-	@DateTimeFormat(pattern ="yyyy-MM-dd")
+	@DateTimeFormat(pattern ="yyyyMMdd")
 	private Date dateOfBirth;
 	private String gender;
 	private String developer;

@@ -295,5 +295,87 @@
 		<input type="submit" value= "registerUserAddress"/>
 	</form><br/>
 	
+	
+	
+	<h3>8. 파일 업로드 폼 방식 요청 처리</h3><hr/><br/>
+	
+	<h4>1) 파일 업로드 폼 파일 요소 값을 스프링 MVC가 지원하는 MultipartFile 매개변수로 처리한다.</h4>
+	<form action="/registerFile01" method="post" enctype="multipart/form-data">
+		<input type="file" name = "picture"/>
+		<input type ="submit" value="업로드"/>
+	</form>
+	
+	
+	<!-- name 제대로 안쓰면 nullpoint exception 뜸 -->
+	<h4>2) 파일 업로드 폼 파일 요소 값과 텍스트필드 요소값을 스프링 MVC가 지원하는 MultipartFile 매개변수로 처리한다.</h4>
+	<form action="/registerFile02" method="post" enctype="multipart/form-data">
+		userId : <input type ="text" name = "userId" value ="hongkd"/><br/>
+		password : <input type ="text" name = "password" value ="1234"/><br/>
+		<input type ="file" name = "picture"/><br/>
+		<input type ="submit" value="업로드"/>
+	</form><br/>
+	
+	<h4>3) 파일 업로드 폼 파일 요소 값과 텍스트 필드 요소값을 MultipartFile 매개변수와 자바빈즈 매개변수로 처리한다.</h4>
+	<form action="/registerFile03" method="post" enctype="multipart/form-data">
+		userId : <input type ="text" name = "userId" value ="hongkd"/><br/>
+		password : <input type ="text" name = "password" value ="1234"/><br/>
+		<input type ="file" name = "picture"/><br/>
+		<input type ="submit" value="업로드"/>
+	</form><br/>
+	
+	<h4>4) 파일 업로드 폼 파일 요소 값과 텍스트 필드 요소값을 FileMember 타입의 자바빈즈 매개변수로 처리한다.</h4>
+	<form action="/registerFile04" method="post" enctype="multipart/form-data">
+		userId : <input type ="text" name = "userId" value ="hongkd"/><br/>
+		password : <input type ="text" name = "password" value ="1234"/><br/>
+		<input type ="file" name = "picture"/><br/>
+		<input type ="submit" value="업로드"/>
+	</form><br/>
+	
+	<h4>5) 여러 개의 파일 업로드를 폼 파일 요소 값을 여러개의 MultipartFile 매개변수로 처리한다.</h4>
+	<form action="/registerFile05" method="post" enctype="multipart/form-data">
+		userId : <input type ="text" name = "userId" value ="hongkd"/><br/>
+		password : <input type ="text" name = "password" value ="1234"/><br/>
+		<input type ="file" name = "picture"/><br/>
+		<input type ="file" name = "picture2"/><br/>
+		<input type ="submit" value="업로드"/>
+	</form><br/>
+
+	<h4>6) 여러 개의 파일 업로드를 폼 파일 요소값을 MultipartFile 타입의 요소를 가진 리스트 컬렉션타입 매개변수로 처리한다.</h4>
+	<form action="/registerFile06" method="post" enctype="multipart/form-data">
+		userId : <input type ="text" name = "userId" value ="hongkd"/><br/>
+		password : <input type ="text" name = "password" value ="1234"/><br/>
+		<input type ="file" name = "picture[0]"/><br/>
+		<input type ="file" name = "picture[1]"/><br/>
+		<input type ="submit" value="업로드"/>
+	</form><br/>
+	
+
+	<h4>7) 여러 개의 파일 업로드 폼 파일 요소값과 텍스트 필드 요소 값을 MultipartFileMember 타입의 자바빈즈 클래스 매개변수로 처리한다.</h4>
+	<form action="/registerFile07" method="post" enctype="multipart/form-data">
+		userId : <input type ="text" name = "userId" value ="hongkd"/><br/>
+		password : <input type ="text" name = "password" value ="1234"/><br/>
+		<input type ="file" name = "pictureList[0]"/><br/>
+		<input type ="file" name = "pictureList[1]"/><br/>
+		<input type ="submit" value="업로드"/>
+	</form><br/>
+	
+
+	<h4>7) 여러 개의 파일 업로드 폼 파일 요소값과 텍스트 필드 요소 값을 MultipartFileMember 타입의 자바빈즈  매개변수로 처리한다.</h4>
+	<form action="/registerFile07" method="post" enctype="multipart/form-data">
+		userId : <input type ="text" name = "userId" value ="hongkd"/><br/>
+		password : <input type ="text" name = "password" value ="1234"/><br/>
+		<input type ="file" name = "pictureList" multiple="multiple"/><br/>
+		<input type ="submit" value="업로드"/>
+	</form><br/>
+	
+
+	<h4>8) 파일 업로드 폼 파일 요소값과 텍스트 필드 요소 값을 MultipartFile 타입의 배열  매개변수로 처리한다.</h4>
+	<form action="/registerFile08" method="post" enctype="multipart/form-data">
+		userId : <input type ="text" name = "userId" value ="hongkd"/><br/>
+		password : <input type ="text" name = "password" value ="1234"/><br/>
+		<input type ="file" name = "pictureList" multiple="multiple"/><br/>
+		<input type ="submit" value="업로드"/>
+	</form><br/>
+	
 </body>
 </html>
