@@ -12,6 +12,6 @@
 <form:form action = "/formtag/button/result" method = "post" modelAttribute="member">
 	<form:hidden path = "userId"/>
 	<form:button name = "register"> 등록 </form:button>
-</form:form>>
+</form:form>
 </body>
 </html>
