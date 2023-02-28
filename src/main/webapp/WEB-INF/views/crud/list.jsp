@@ -14,6 +14,11 @@
 	<br />
 
 	<a href="/crud/board/register">등록</a>
+	<form action = "/crud/board/search" method = "post">
+		<input type = "text" name ="title" value=""/>
+		<input type = "submit" value="검색"/>
+	</form>
+	
 
 	<table border="1">
 		<tr>

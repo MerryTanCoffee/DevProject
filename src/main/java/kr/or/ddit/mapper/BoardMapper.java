@@ -15,5 +15,9 @@ public interface BoardMapper {
 	public Board read(int boardNo) throws Exception;
 
 	public void update(Board board) throws Exception;
+
+	public void remove(int boardNo) throws Exception;
+
+	public List<Board> search(Board board) throws Exception ;
 	
 }

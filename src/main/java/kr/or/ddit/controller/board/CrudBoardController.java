@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import kr.or.ddit.service.IBaordService;
+import kr.or.ddit.service.IBoardService;
 import kr.or.ddit.vo.Board;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CrudBoardController {
 
 	@Inject
-	private IBaordService boardService;
+	private IBoardService boardService;
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public String crudRegisterForm(Board board, Model model) {
@@ -35,6 +35,11 @@ public class CrudBoardController {
 		
 		// 등록 기능 요청(서비스)
 		boardService.register(board);
+		
+		if(board.getBoardNo()>0) {
+			// 띄어쓰기 있으면 안됨
+			return "redirect:/crud/board/read?boardNo=" + board.getBoardNo();
+		}
 		model.addAttribute("msg","등록 완료");
 		return "crud/success";
 	}
@@ -77,4 +82,29 @@ public class CrudBoardController {
 		return "crud/success";
 	}
 	
+	@RequestMapping(value = "/remove",method = RequestMethod.POST)
+	public String crudRemove(int boardNo, Model model) throws Exception {
+		log.info("crudRemove()");
+		boardService.remove(boardNo);
+		model.addAttribute("msg","삭제 끝");
+		return "crud/success";
+	
+	}
+	
+
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public String crudSearch(String title, Model model) throws Exception {
+		log.info("crudSearch() : ");
+		
+		Board board = new Board();
+		board.setTitle(title);
+		
+		List<Board> boardList = boardService.search(board);
+		
+		model.addAttribute("board",board);
+		// jsp와 컨트롤러의 키 값이 일치해야지 값이 넘어옴,,
+		model.addAttribute("list",boardList);
+		
+		return "crud/list";
+	}
 }

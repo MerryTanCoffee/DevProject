@@ -8,6 +8,7 @@
  -->
 	<settings>
 		<setting name = "mapUnderscoreToCamelCase" value = "true"/>
+		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
 	
 	<!-- 
@@ -17,6 +18,10 @@
 	 
 	<typeAliases>
 	 	<typeAlias type = "kr.or.ddit.vo.Board" alias = "board"/>
+	 	<typeAlias type = "kr.or.ddit.vo.MemberVO" alias = "memberVO"/>
+	 	<typeAlias type = "kr.or.ddit.vo.MemberAuth" alias = "memberAuth"/>
+	 	<typeAlias type = "kr.or.ddit.vo.test.DDITBoardVO" alias = "dditBoard"/>
+	 	<typeAlias type = "kr.or.ddit.vo.test.DDITTagVO" alias = "dditTag"/>
 	 </typeAliases> 
 	 
 </configuration>

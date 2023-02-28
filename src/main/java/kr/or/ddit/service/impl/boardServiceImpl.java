@@ -7,11 +7,11 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.mapper.BoardMapper;
-import kr.or.ddit.service.IBaordService;
+import kr.or.ddit.service.IBoardService;
 import kr.or.ddit.vo.Board;
 
 @Service
-public class boardServiceImpl implements IBaordService{
+public class boardServiceImpl implements IBoardService{
 
 	// DAO 대신  Mapper를 부름
 	@Inject
@@ -41,6 +41,15 @@ public class boardServiceImpl implements IBaordService{
 	public void update(Board board) throws Exception {
 		
 		mapper.update(board);
+	}
+
+	@Override
+	public void remove(int boardNo) throws Exception {
+		mapper.remove(boardNo);		
+	}
+
+	public List<Board> search(Board board) throws Exception  {
+		return mapper.search(board);
 	}
 
 }
