@@ -241,6 +241,47 @@ public class MybatisController {
 	 *  	- 게시판 검색 기능 Mapper xml 추가
 	 *  		확인하기
 	 *  
+	 *  == 부트스트랩을 이용한  CRUD 진행 ==
+	 *  	페이지 모듈화를 위한 Tiles를 함께 사용하여 CRUD를 진행한다.
+	 *  
+	 *  1. Tiles?
+	 *  - 어떤 jsp를 템플릿으로 사용하고 템플릿의 각 영역을 어떤 내용으로 채울지에 대한 정보를 설정한다.
+	 *  하나의 화면들을 만들다보면 공통적이고 반복적으로 생성해야하는  header,footer와 같은 영역들이 존재
+	 *  우리는 그러한 공통 부분들을 분리하여 반복적으로 컴포턴트들을 사용하는게 아닌 공통적인 부분은 한 번만 가져다 쓰고
+	 *  변화하는 부분에 대해서만 동적으로 변ㅂ환해 페이지를 관리할 수 있어야한다.
+	 *  이렇게 header,footer,menu 등 공통적인 소스를 분리하여 한 화면에서 동적으로 레이아웃을 한 곳에 배치하여 설정하고
+	 *  관리할 수 있도록 도와주는 페이지 모듈화를 돕는 프레임워크
+	 *  
+	 *  - 아래 jsp들을 이용하여 페이지 모듈화 진행
+	 *  template.jsp
+	 *  > header.jsp
+	 *  > content.source
+	 *  > footer.jsp
+	 *  > leftmenu.jsp
+	 *  > .. 필요한 영역이 있다면 공통ㅇ ㅔ해당하는  jsp 페이지가 필요하다.
+	 *  
+	 *  2. Tiles Layout 구현
+	 *  	
+	 *  1) Tiles 의존 관계 구현
+	 *   - tiles-core
+	 *   - tiles-api
+	 *   - tiles-servlet
+	 *   - tiles-jsp	
+	 *  ** 의존 관계 등록후 maver > update-project
+	 *  
+	 *  2) servlet-context.xml 수정 (view resolver)
+	 *  	- ViewResolver order 순서를 2순위로 지정
+	 *  	- tilesViewResolver Bean을 1순위로 등록 진행
+	 *  
+	 *  3) tiles 설정 위한 xml 생성
+	 *  	- /WEB-INF/spring/tiles-config.xml
+	 *  
+	 *  4) tiles xml에 설정한 layout 설정대로 페이지 생성(jsp)
+	 *  
+	 *  
+	 *  
+	 *  
+	 *  
 	 *  
 	 */			
 }

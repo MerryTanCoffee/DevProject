@@ -18,10 +18,12 @@
 	 
 	<typeAliases>
 	 	<typeAlias type = "kr.or.ddit.vo.Board" alias = "board"/>
+	 	<typeAlias type = "kr.or.ddit.vo.NoticeVO" alias = "noticeVO"/>
 	 	<typeAlias type = "kr.or.ddit.vo.MemberVO" alias = "memberVO"/>
 	 	<typeAlias type = "kr.or.ddit.vo.MemberAuth" alias = "memberAuth"/>
 	 	<typeAlias type = "kr.or.ddit.vo.test.DDITBoardVO" alias = "dditBoard"/>
 	 	<typeAlias type = "kr.or.ddit.vo.test.DDITTagVO" alias = "dditTag"/>
+	 	<typeAlias type = "kr.or.ddit.vo.PaginationInfoVO" alias = "pagingVO"/>
 	 </typeAliases> 
 	 
 </configuration>
