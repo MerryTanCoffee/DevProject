@@ -27,7 +27,7 @@
 						<h3 class="card-title">${notice.boTitle }</h3>
 						<div class="card-tools">${notice.boWriter } ${notice.boDate } ${notice.boHit }</div>
 					</div>
-					<form id="quickForm" novalidate="novalidate">
+					<div id="quickForm" novalidate="novalidate">
 						<div class="card-body">${notice.boContent }</div>
 						<div class="card-footer bg-white">
 							<ul
@@ -49,14 +49,45 @@
 							</ul>
 						</div>
 						<div class="card-footer">
-							<button type="submit" class="btn btn-primary">목록</button>
-							<button type="submit" class="btn btn-info">수정</button>
-							<button type="submit" class="btn btn-danger">삭제</button>
+							<button type="button" class="btn btn-primary" id = "listBtn">목록</button>
+							<button type="button" class="btn btn-info" id = "updateBtn">수정</button>
+							<button type="button" class="btn btn-danger" id = "delBtn">삭제</button>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
+			<form action = "/notice/update.do" method = "get" id = "nFrm">
+				<input type = "hidden" name = "boNo" value = "${notice.boNo }">			
+			</form>
 			<div class="col-md-6"></div>
 		</div>
 	</div>
 </section>
+<script type = "text/javascript">
+$(function(){
+	var nFrm = $("#nFrm");
+	var listBtn = $("#listBtn");
+	var updateBtn = $("#updateBtn");
+	var delBtn = $("#delBtn");
+	
+	
+	listBtn.on("click", function(){
+		location.href = "/notice/list.do";
+	});
+	
+	updateBtn.on("click", function(){
+		nFrm.submit();
+	});
+	
+	
+	delBtn.on("click", function(){
+		if(confirm("삭제?")) {
+			nFrm.attr("action","/notice/delete.do");
+			nFrm.attr("method","post");
+			nFrm.submit();
+		} else {
+			nFrm.reset();
+		}
+	});
+});
+</script>

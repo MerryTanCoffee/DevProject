@@ -14,4 +14,8 @@ public interface NoticeMapper {
 	public int selectNoticeCount(PaginationInfoVO<NoticeVO> pagingVO);
 
 	public List<NoticeVO> selectNoticeList(PaginationInfoVO<NoticeVO> pagingVO);
+
+	public int updateNotice(NoticeVO notice);
+
+	public int deleteNotice(int boNo);
 }

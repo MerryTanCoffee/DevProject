@@ -25,7 +25,7 @@ public class NoticeRetrieveController {
 	@Autowired
 	private INoticeService noticeService;
 	
-	@RequestMapping(value="/list.do", method=RequestMethod.GET)
+	@RequestMapping(value="/list.do")
 	public String noticeList(@RequestParam(name="page",required = false, defaultValue = "1")int currentPage, 
 			@RequestParam(required = false, defaultValue = "title") String searchType, 
 			@RequestParam(required = false)String searchWord,

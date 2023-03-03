@@ -1,24 +1,30 @@
 package kr.or.ddit.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.ServiceResult;
 import kr.or.ddit.controller.noticeboard.web.TelegramSendController;
+import kr.or.ddit.mapper.LoginMapper;
 import kr.or.ddit.mapper.NoticeMapper;
 import kr.or.ddit.service.INoticeService;
+import kr.or.ddit.vo.Member;
 import kr.or.ddit.vo.NoticeVO;
 import kr.or.ddit.vo.PaginationInfoVO;
+import kr.or.ddit.vo.test.DDITMemberVO;
 
 @Service
 public class NoticeServiceImpl implements INoticeService{
 
 	@Autowired
 	private NoticeMapper noticeMapper;
+	
+	@Autowired
+	private LoginMapper loginMapper;
 	
 	TelegramSendController tst = new TelegramSendController();
 	
@@ -59,4 +65,77 @@ public class NoticeServiceImpl implements INoticeService{
 		return noticeMapper.selectNoticeList(pagingVO);
 	}
 
+	@Override
+	public ServiceResult updateNotice(NoticeVO notice) {
+		
+		ServiceResult result = null;
+		int cnt = noticeMapper.updateNotice(notice);
+		if(cnt > 0) {
+			result = ServiceResult.OK;
+		} else {
+			result = ServiceResult.FAILED;
+		}
+		return result;
+	}
+
+	@Override
+	public ServiceResult deleteNotice(int boNo) {
+		
+		ServiceResult result = null;
+		int cnt = noticeMapper.deleteNotice(boNo);
+		if(cnt > 0) {
+			result = ServiceResult.OK;
+		} else {
+			result = ServiceResult.FAILED;
+		}
+		return result;
+	}
+
+	@Override
+	public ServiceResult idCheck(String memId) {
+		ServiceResult result = null;
+		DDITMemberVO member = loginMapper.idCheck(memId);
+	
+		if(member != null) {
+			result = ServiceResult.EXIST;
+		} else {
+			result = ServiceResult.NOTEXIST;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public ServiceResult signup(DDITMemberVO memberVO) {
+		
+		ServiceResult result = null;
+		int status = loginMapper.signup(memberVO);
+	
+		if(status > 0) {
+			result = ServiceResult.OK;
+		} else {
+			result = ServiceResult.FAILED;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public DDITMemberVO loginCheck(DDITMemberVO member) {
+		return loginMapper.loginCheck(member);
+	}
+
+	@Override
+	public ArrayList<DDITMemberVO> findId(DDITMemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<String> find(DDITMemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

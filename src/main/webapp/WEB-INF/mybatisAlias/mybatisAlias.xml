@@ -20,6 +20,7 @@
 	 	<typeAlias type = "kr.or.ddit.vo.Board" alias = "board"/>
 	 	<typeAlias type = "kr.or.ddit.vo.NoticeVO" alias = "noticeVO"/>
 	 	<typeAlias type = "kr.or.ddit.vo.MemberVO" alias = "memberVO"/>
+	 	<typeAlias type = "kr.or.ddit.vo.test.DDITMemberVO" alias = "dditmemberVO"/>
 	 	<typeAlias type = "kr.or.ddit.vo.MemberAuth" alias = "memberAuth"/>
 	 	<typeAlias type = "kr.or.ddit.vo.test.DDITBoardVO" alias = "dditBoard"/>
 	 	<typeAlias type = "kr.or.ddit.vo.test.DDITTagVO" alias = "dditTag"/>
