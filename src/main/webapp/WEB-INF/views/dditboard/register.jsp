@@ -6,13 +6,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>DDIT BOARD REGISTER</title>
+<title>DDIT BOARD</title>
 </head>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		var board = $("#dditBoard");
+		var board = $("#board");
 		var btnRegister = $("#btnRegister");
 		var btnList = $("#btnList");
 
@@ -40,34 +40,34 @@
 	<form:form action="/ddit/board/register" method="post"
 		modelAttribute="board">
 		<c:if test="${status eq 'u' }">
-			<input type="hidden" name="boNo" value="${dditBoard.boNo }">
+			<input type="hidden" name="boNo" value="${board.boNo }">
 		</c:if>
 		<table border="1">
 
 			<tr>
 				<td>제목</td>
-				<td><input type="text" name="boTitle" id="title"  value="${dditBoard.boTitle }"/></td>
+				<td><input type="text" name="boTitle" id="title"  value="${board.boTitle }"/></td>
 			</tr>
 			<tr>
 				<td>작성자</td>
-				<td><input type="text" name="boWriter" id=writer value="${dditBoard.boWriter }" /></td>
+				<td><input type="text" name="boWriter" id=writer value="${board.boWriter }" /></td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><textarea rows="20" cols="30" name="boContent" >${dditBoard.boContent }</textarea></td>
+				<td><textarea rows="20" cols="30" name="boContent" >${board.boContent }</textarea></td>
 			</tr>
 			
 			<tr>
 				<td>태그1</td>
-				<td><input type="text" name="tagList[0].tagName" id="${dditBoard.tagList[0].tagName }" value="${dditBoard.tagList[0].tagName }"/></td>
+				<td><input type="text" name="tagList[0].tagName" id="${board.tagList[0].tagName }" value="${dditBoard.tagList[0].tagName }"/></td>
 			</tr>
 			<tr>
 				<td>태그2</td>
-				<td><input type="text" name="tagList[1].tagName" id="${dditBoard.tagList[1].tagName }" value="${dditBoard.tagList[1].tagName }"/></td>
+				<td><input type="text" name="tagList[1].tagName" id="${board.tagList[1].tagName }" value="${dditBoard.tagList[1].tagName }"/></td>
 			</tr>
 			<tr>
 				<td>태그3</td>
-				<td><input type="text" name="tagList[2].tagName" id="${dditBoard.tagList[2].tagName }"  value="${dditBoard.tagList[2].tagName }"/></td>
+				<td><input type="text" name="tagList[2].tagName" id="${board.tagList[2].tagName }"  value="${dditBoard.tagList[2].tagName }"/></td>
 			</tr>
 		</table>
 		<c:set value="등록 " var="btnText" />

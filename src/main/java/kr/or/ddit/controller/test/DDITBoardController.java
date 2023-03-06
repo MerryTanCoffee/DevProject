@@ -45,7 +45,7 @@ public class DDITBoardController {
 		}
 	
 		model.addAttribute("msg","등록 완료");
-		return "ddit/success";
+		return "dditboard/success";
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -71,7 +71,7 @@ public class DDITBoardController {
 		log.info("dditModifyForm() : ");
 
 		DDITBoardVO board = boardService.read(boNo);
-		model.addAttribute("dditBoard",board);
+		model.addAttribute("board",board);
 		model.addAttribute("status","u");
 		return "dditboard/register";
 	}

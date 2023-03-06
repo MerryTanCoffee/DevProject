@@ -24,6 +24,8 @@
 			<beans:property name="order" value = "2"/>
 	</beans:bean>
 
+	<!-- tiles start -->
+
 	<beans:bean id = "tilesViewResolver" class = "org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<beans:property name="viewClass" value = "org.springframework.web.servlet.view.tiles3.TilesView"/>
 		<beans:property name="order" value = "1"/>
@@ -37,6 +39,12 @@
 		</beans:property>
 	</beans:bean>
 	
+	<!-- tiles end -->
+
+	<beans:bean id = "multipartResolver" class = "org.springframework.web.multipart.support.StandardServletMultipartResolver">
+
+	</beans:bean>
+
 	<context:component-scan base-package="kr.or.ddit" />
 	
 </beans:beans>

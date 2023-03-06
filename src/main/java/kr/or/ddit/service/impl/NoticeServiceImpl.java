@@ -1,6 +1,5 @@
 package kr.or.ddit.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,7 +11,6 @@ import kr.or.ddit.controller.noticeboard.web.TelegramSendController;
 import kr.or.ddit.mapper.LoginMapper;
 import kr.or.ddit.mapper.NoticeMapper;
 import kr.or.ddit.service.INoticeService;
-import kr.or.ddit.vo.Member;
 import kr.or.ddit.vo.NoticeVO;
 import kr.or.ddit.vo.PaginationInfoVO;
 import kr.or.ddit.vo.test.DDITMemberVO;
@@ -120,22 +118,19 @@ public class NoticeServiceImpl implements INoticeService{
 		return result;
 	}
 
+
 	@Override
 	public DDITMemberVO loginCheck(DDITMemberVO member) {
 		return loginMapper.loginCheck(member);
 	}
 
 	@Override
-	public ArrayList<DDITMemberVO> findId(DDITMemberVO memberVO) {
-		// TODO Auto-generated method stub
-		return null;
+	public String findId(DDITMemberVO member) {
+		return loginMapper.findId(member);
 	}
 
 	@Override
-	public ArrayList<String> find(DDITMemberVO memberVO) {
-		// TODO Auto-generated method stub
-		return null;
+	public String findPw(DDITMemberVO member) {
+		return loginMapper.findPw(member);
 	}
-
-	
 }

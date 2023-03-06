@@ -1,6 +1,5 @@
 package kr.or.ddit.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import kr.or.ddit.ServiceResult;
@@ -28,8 +27,9 @@ public interface INoticeService {
 
 	public DDITMemberVO loginCheck(DDITMemberVO member);
 
-	public ArrayList<DDITMemberVO> findId(DDITMemberVO memberVO);
+	public String findId(DDITMemberVO member);
 
-	ArrayList<String> find(DDITMemberVO memberVO);
+	public String findPw(DDITMemberVO member);
+
 	
 }

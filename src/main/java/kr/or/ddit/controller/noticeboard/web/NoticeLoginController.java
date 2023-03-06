@@ -1,12 +1,10 @@
 package kr.or.ddit.controller.noticeboard.web;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -128,8 +125,24 @@ public class NoticeLoginController {
 		}
 		return goPage;
 	}	
-	@RequestMapping(value ="/find.do", method = RequestMethod.GET)
-	public String findInfo() {
-		return "conn/find";
+	
+
+	@RequestMapping(value = "/forget.do", method = RequestMethod.GET)
+	public String forget(Model model) {
+		model.addAttribute("bodyText", "login-page");
+		return "conn/forget";
+	}
+	
+	@RequestMapping(value = "/forgetId.do", method = RequestMethod.POST)
+	public ResponseEntity<String> forgetId(DDITMemberVO member) {
+		String memId = noticeService.findId(member);
+		return new ResponseEntity<String>(memId, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/forgetPw.do", method = RequestMethod.POST)
+	public ResponseEntity<String> forgetPw(DDITMemberVO member) {
+		String memPw = noticeService.findPw(member);
+		System.out.println("memPw : " + memPw);
+		return new ResponseEntity<String>(memPw, HttpStatus.OK);
 	}
 }

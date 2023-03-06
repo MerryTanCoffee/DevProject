@@ -37,7 +37,7 @@
 				</div>
 			</form>
 			<p class="mb-1">
-				<a href="/notice/find.do">아이디 찾기</a> | 
+				<a href="/notice/forget.do">아이디 찾기</a> | 
 				<a href="">비밀번호 찾기</a>
 			</p>
 			<p class="mb-0">

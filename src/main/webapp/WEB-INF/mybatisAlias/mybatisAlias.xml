@@ -25,6 +25,8 @@
 	 	<typeAlias type = "kr.or.ddit.vo.test.DDITBoardVO" alias = "dditBoard"/>
 	 	<typeAlias type = "kr.or.ddit.vo.test.DDITTagVO" alias = "dditTag"/>
 	 	<typeAlias type = "kr.or.ddit.vo.PaginationInfoVO" alias = "pagingVO"/>
+	 	<typeAlias type = "kr.or.ddit.vo.Item" alias = "item"/>
+	 	<typeAlias type = "kr.or.ddit.vo.Item2" alias = "item2"/>
 	 </typeAliases> 
 	 
 </configuration>

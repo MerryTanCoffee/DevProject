@@ -48,5 +48,18 @@
         <bean class = "org.mybatis.spring.mapper.MapperScannerConfigurer">
         	<property name="basePackage" value = "kr.or.ddit.mapper"></property>
         </bean>
-
+        
+<!--        
+         CommonsMultipartResolver start 
+ 		<bean id = "multipartResolver" class = "org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<property name="maxUploadSize" value="10485760"/>
+			<property name="defaultEncoding" value="UTF-8"/>
+		</bean>
+         CommonsMultipartResolver end 
+-->
+        <!-- file upload start -->
+		<bean id = "uploadPath" class = "java.lang.String">
+			<constructor-arg value ="D:\A_TeachingMaterial\08_Framework\02.SPRING2\workspace-spring2\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\DevProject\resources\upload"/>
+		</bean>
+		
 </beans>
