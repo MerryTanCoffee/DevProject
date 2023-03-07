@@ -16,14 +16,19 @@ public class UploadFileUtils {
 	
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileData) throws Exception {
 		UUID uuid = UUID.randomUUID();
+		
 		String savedName = uuid.toString() + "_" + originalName;
+		// 2023/03/07과 같은 폴더 경로를 만들고 2023/03/07 폴더 경로를 리턴한다.
 		String savedPath = calcPath(uploadPath);
 		File target = new File(uploadPath  + savedPath, savedName);
 		FileCopyUtils.copy(fileData, target);
 		
 		String formatName = originalName.substring(originalName.lastIndexOf(".") + 1);
+		
+		// \2023\03\07 폴더 경로를 만들고 /2023/03/07 폴더 경로를 리턴한다.
 		String uploadFileName = savedPath.replace(File.separatorChar, '/') + "/" + savedName;
 		
+		// 확장자가 이미지 파일이면 s_가 붙은 파일의 썸네일 이미지 파일을 생성한다.
 		if(MediaUtils.getMediaType(formatName)  != null) {
 			makeThumbnail(uploadPath,savedPath, savedName);
 		}
@@ -31,6 +36,7 @@ public class UploadFileUtils {
 		return uploadFileName;
 	}
 	
+	// s_가 붙은 썸네일 파일로 만들어준다.(폴더명을 만들어주는 곳)
 	private static void makeThumbnail(String uploadPath, String path, String fileName) throws Exception {
 		BufferedImage sourceImg = ImageIO.read(new File(uploadPath + path , fileName));
 		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT,100 );
@@ -59,6 +65,8 @@ public class UploadFileUtils {
 	// 가변인자 (키워드 ...을 사용함)
 	// [사용법] 타입 ... 변수명 형태로 사용
 	// 순서대로 yearPath, monthPath, datePath가 배열로 들어옴														
+	
+	// calcPath 함수에서 만들어진 폴더명을 가지고 실제 폴더 경로에 폴더들을 만들어주는 곳
 	private static void makeDir(String uploadPath, String...paths) {
 		
 		if(new File(paths[paths.length-1]).exists()) {

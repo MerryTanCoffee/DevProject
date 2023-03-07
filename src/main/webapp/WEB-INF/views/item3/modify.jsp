@@ -4,60 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Item3 Register</title>
+<title>Item3 Modify</title>
 </head>
-  <script type="text/javascript" src = "${pageContext.request.contextPath }/resources/plugins/jquery/jquery.min.js"></script>
-<body>
-	<h2>Register</h2><hr/><br/>
-	
-	<form action = "/item3/register" method = "post" enctype="multipart/form-data" id = "item">
-		<table border="1">
-			<tr>
-				<td>상품명</td>
-				<td>
-					<input type="text" name = "itemName" id = "itemName"/>
-				</td>
-			</tr>
-		
-			<tr>
-				<td>가격</td>
-				<td>
-					<input type="text" name = "price" id = "price"/>
-				</td>
-			</tr>
-		
-			<tr>
-				<td>파일</td>
-				<td>
-					<input type="file" id = "inputFile"/>
-					<div class = "uploadedList">
-					
-					</div>
-				</td>
-			</tr>
-		
-			<tr>
-				<td>개요</td>
-				<td>
-					<textarea rows="10" cols="30" name = "description"></textarea>
-				</td>
-			</tr>
-		
-		
-		</table>
-		<div>
-		
-			<button type="submit" id = "registerBtn">등록</button>
-			<button type="button" id = "listBtn" onclick="javascript:location.href='/item3/list'">목록</button>
-		
-		</div>
-	
-	</form>
-</body>
-
-
+<script type="text/javascript" src = "${pageContext.request.contextPath }/resources/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
+	var itemId = ${item.itemId};
 	var inputFile = $("#inputFile");
 	
 	$("#item").submit(function(event){
@@ -131,6 +83,33 @@ $(function(){
 	
 	
 	
+	// 경로에 itemId를 포함함
+	$.getJSON("/item3/getAttach/" + itemId, function(list){
+		
+		$(list).each(function(){
+			console.log("data : " + this);
+			var data = this;
+			var str = "";
+			
+			if(checkImageType(data)) { // 이미지이면 이미지 태그를 이용한 출력형태
+				str += "<div>";
+				str += "	<a href = '/item3/displayFile?fileName="+ data + "'>";
+				str += "	<img src = '/item3/displayFile?fileName=" + getThumbnailName(data)+ "'/>";
+				str += "	</a>";
+				str += "	<span>x</span>";
+				str += "</div>";
+			} else { // 파일이면 파일명에 대한 링크로만 출력
+				str += "<div>";
+				str += "	<a href ='/item3/displayFile?fileName="+data+"'>" +getOriginalName(data) + "</a>";
+				str += "	<span>x</span>";
+				str += "</div>";
+			}
+			$(".uploadedList").append(str);
+		});
+	});
+	
+	
+	
 	function getOriginalName(fileName){
 		if(checkImageType(fileName)){
 			return;
@@ -152,6 +131,51 @@ $(function(){
 		var pattern = /jpg|gif|png|jpeg/i;
 		return fileName.match(pattern); // 패턴과 일치하면 true (너 이미지 맞구나?)
 	}
+	
+	
+	
 });
+
 </script>
+<body>
+	<h2>Modify</h2><hr/><br/>
+	
+	<form action = "/item3/modify" method="post"  enctype="multipart/form-data" id = "item">
+	<input type="hidden" name = "itemId" value = "${item.itemId }">
+	
+		<table>
+			<tr>
+				<td>상품명</td>
+				<td>
+					<input type = "text" name ="itemName" id = "itemName" value = "${item.itemName }"/>
+				</td>
+			</tr>
+			<tr>
+				<td>가격</td>
+				<td>
+					<input type = "text" name ="price" id = "price" value = "${item.price }"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>파일</td>
+				<td>
+					<input type = "file" id = "inputFile"/>
+					<div class = "uploadedList"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>개요</td>
+				<td>
+					<textarea rows="10" cols="30" name ="description" id = "description">${item.description }</textarea>
+				</td>
+			</tr>
+		</table>
+		
+		<div>
+			<button type = "submit" id = "modifyBtn">수정</button>
+			<button type = "button" id ="listBtn" onclick="javascript:location.href='/item3/list'">리스트</button>
+		</div>
+		</form>
+</body>
 </html>

@@ -11,6 +11,30 @@
 		</if>
 	</sql>
 
+	<resultMap type ="noticeVO" id = "noticeMap">
+		<id property="boNo" column="bo_no"/>
+		<result property="boNo" column="bo_no"/>
+		<result property="boTitle" column="BO_TITLE"/>
+		<result property="boContent" column="BO_CONTENT"/>
+		<result property="boWriter" column="BO_WRITER"/>
+		<result property="boDate" column="BO_DATE"/>
+		<result property="boHit" column="BO_HIT"/>
+		<collection property="noticeFileList" resultMap="noticeFileMap"/>
+	</resultMap>
+	
+	<resultMap type="noticeFileVO" id="noticeFileMap">
+		<id property="fileNo" column="file_no"/>
+		<result property="fileNo" column="file_no"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="fileFancysize" column="FILE_FANCYSIZE"/>
+		<result property="fileMime" column="FILE_MIME"/>
+		<result property="fileSavePath" column="FILE_SAVEPATH"/>
+		<result property="fileDowncount" column="FILE_DOWNCOUNT"/>
+	</resultMap>
+
+
+
 	<insert id="insertNotice" parameterType="noticeVO" useGeneratedKeys="true">
 		<selectKey keyProperty="boNo" resultType="int" order="BEFORE">
 			select seq_notice.nextval from dual
@@ -29,12 +53,17 @@
 		where bo_no = #{boNo}	
 	</update>
 	
-	<select id="selectNotice" parameterType="int" resultType="noticeVO">
+	
+	
+	<!-- resultType으로는 모든 내용을 받을 수 없어서 resultMap을 선언하고 이 Map에 담음 -->
+	<select id="selectNotice" parameterType="int" resultMap="noticeMap">
 		select
-			bo_no, bo_title, bo_content, bo_writer, 
-			to_char(bo_date, 'yy-mm-dd hh24:mi:ss')bo_date, bo_hit
-		from notice
-		where bo_no = #{boNo}	
+		    n.bo_no, bo_title, bo_content, bo_writer, 
+		    to_char(bo_date, 'yy-mm-dd hh24:mi:ss')bo_date, bo_hit,
+		    file_no, file_name, file_size, file_fancysize, file_mime,
+		    file_savepath, file_downcount
+		from notice n left outer join noticefile nf on (n.bo_no = nf.bo_no)
+		where n.bo_no = #{boNo}
 	</select>
 	
 	<select id="selectNoticeCount" parameterType="pagingVO" resultType="int">
@@ -79,5 +108,28 @@
 	<delete id="deleteNotice" parameterType="int">
 		delete from notice
 		where bo_no = #{boNo}
+	</delete>
+	
+	<insert id="insertNoticeFile" parameterType="noticeFileVO">
+		insert into noticefile (
+			file_no, bo_no, file_name, file_size, file_fancysize, file_mime,
+			file_savepath, file_downcount
+		) values (
+			seq_noticefile.nextval, #{boNo}, #{fileName}, #{fileSize}, #{fileFancysize}, #{fileMime}, #{fileSavePath}, 0
+		)
+		
+	</insert>
+	
+	<select id="selectNoticeFile" parameterType="int" resultType="noticeFileVO">
+		select
+			file_no, bo_no, file_name, file_size, file_fancysize, file_mime,
+			file_savepath, file_downcount
+		from noticefile
+		where file_no = #{fileNo}	
+	</select>
+	
+	<delete id="deleteNoticeFile" parameterType="int">
+		delete from noticefile
+		where file_no = #{fileNo}	
 	</delete>
 </mapper>
