@@ -258,7 +258,47 @@
 			<version>4.7</version>
 			<scope>test</scope> 
 		</dependency>        
+
+	<!-- spring 시큐리티 라이브러리  -->
+	<!-- 스프링 시큐리티를 웹에서 동작하도록 해줌 -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-web</artifactId>
+	    <version>5.0.7.RELEASE</version>
+	</dependency>
+	
+	<!-- 스프링 시큐리티 설정을 도와줌 -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-config</artifactId>
+	    <version>5.0.7.RELEASE</version>
+	</dependency>
+	
+	<!-- 
+		스프링 시큐리티 일반 기능 사용	
+		1. 인증(Authentication) : 로그인
+		2. 인가(Authorization) : 권한(role)
+	 		- CSRF(Cross-Site Request Forgery(위조)) 토큰)
+	 		크로스 사이트 요청 위조. 웹 사이트 취약점 공격의 하나. 나도 모르게 등록/수정/삭제됨	
+	 -->
+	 
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-core</artifactId> 
+	    <version>5.0.7.RELEASE</version>
+	</dependency>
+	
+	<!-- 스프링 시큐리티와 태그라이브러리를 연결 taglibrary -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-taglibs</artifactId>
+	    <version>5.0.7.RELEASE</version>
+	</dependency>
+	
+	<!-- spring security  -->
+
 	</dependencies>
+	
     <build>
         <plugins>
             <plugin>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+   xmlns:security="http://www.springframework.org/schema/security"
+   xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+   
+   <!-- xmlns는 xml namespace -->
+   <security:http>
+   		<!-- URI 패턴으로 접근 제한을 설정(URI가 URL을 포함 URL에 기능을 추가하면 URI가 됨 -->
+   		<!-- 1) /springBoard/list 누구나 접근 가능 -->
+   		<security:intercept-url pattern="/springBoard/list" access="permitAll"/>
+   		<!-- 2) /springBoard/register 로그인한 회원만 접근 가능 
+   		Role_Member라는 권한(Role)을 갖고 있을 때 정상적으로 요청이 완료됨
+   		-->
+   		<security:intercept-url pattern="/springBoard/register" access="hasRole('ROLE_MEMBER')"/>
+   		<!-- 3) /springNotice/list 누구나 접근 가능 -->
+   		<security:intercept-url pattern="/springNotice/list" access="permitAll"/>
+   		<!-- 4) /springNotice/register 로그인한 관리자만 접근 가능 -->
+   		<security:intercept-url pattern="/springNotice/register" access="hasRole('ROLE_ADMIN')"/>
+   		<!-- 폼 기반 인증 기능을 사용함 -->
+   		<security:form-login/>
+   		
+   		<!-- 접근(access) 거부(denied) 처리(handler) : URI 지정 -->
+   		<security:access-denied-handler error-page="/accessError"/>
+   </security:http>
+   
+   <!-- authentication(인증) 매니저 
+   		스프링 시큐리티 5버전부터는 비밃너호 암호화 처리기를 반드시 이용하도록 변경 됨
+   		but, 우리는 연습 중이므로 암호화 처리기를 사용하지 않을 것임 
+   		그리하여 noop 문자열을 비밀번호 앞에 사용
+   -->
+   <security:authentication-manager>
+   		<!-- 인증 제공자 -->
+   		<security:authentication-provider>
+   			<security:user-service>
+   				<!-- name : 유저 아이디  
+   					authorities 권한 
+   					아이디가 member 인 유저의 권한은 ROLE_MEMBER 임
+   				-->
+   				<security:user name="member" password ="{noop}java" authorities="ROLE_MEMBER"/>
+   				<!-- 아이디가 admin인 유저의 권한은 ROLE_MEMBER, ROLE_ADMIN 임 -->
+   				<security:user name="admin" password="{noop}java" authorities="ROLE_MEMBER,ROLE_ADMIN"/>
+   			</security:user-service>
+   		</security:authentication-provider>
+   </security:authentication-manager>
+</beans>

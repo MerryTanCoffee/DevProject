@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import kr.or.ddit.vo.Board;
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 @Controller
 @RequestMapping("/board")
