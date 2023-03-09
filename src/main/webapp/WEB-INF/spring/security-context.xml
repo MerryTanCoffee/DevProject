@@ -5,6 +5,14 @@
    xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
    
+   <!-- 사용자 접근 거부 처리자 : 로그인 한 계정이 권한이 없을 때 접근 거부를 처리함 -->
+   <bean id = "customAccessDenied" class ="kr.or.ddit.security.CustomAccessDeniedHandler">
+   </bean>
+   <!-- 사용자 정의 로그인 성공 처리자 -->
+   <bean id = "customLoginSuccess" class ="kr.or.ddit.security.CustomLoginSuccessHandler"></bean> 
+   <!-- 비밀번호 암호화를 하지 않겠다 라는 의미 -->
+   <bean id = "cutomPasswordEncoder" class = "kr.or.ddit.security.CustomNoOpPasswordEncoder"></bean>
+   		
    <!-- xmlns는 xml namespace -->
    <security:http>
    		<!-- URI 패턴으로 접근 제한을 설정(URI가 URL을 포함 URL에 기능을 추가하면 URI가 됨 -->
@@ -17,12 +25,46 @@
    		<!-- 3) /springNotice/list 누구나 접근 가능 -->
    		<security:intercept-url pattern="/springNotice/list" access="permitAll"/>
    		<!-- 4) /springNotice/register 로그인한 관리자만 접근 가능 -->
-   		<security:intercept-url pattern="/springNotice/register" access="hasRole('ROLE_ADMIN')"/>
-   		<!-- 폼 기반 인증 기능을 사용함 -->
-   		<security:form-login/>
    		
-   		<!-- 접근(access) 거부(denied) 처리(handler) : URI 지정 -->
-   		<security:access-denied-handler error-page="/accessError"/>
+   		
+   		<security:intercept-url pattern="/springNotice/register" access="hasRole('ROLE_ADMIN')"/>
+   		<!-- 폼 기반 인증 기능을 사용함 사용자 정의 로그인 페이지 사용ㅇ -->
+   		<security:form-login login-page="/login" authentication-success-handler-ref="customLoginSuccess"/>
+   		
+   		<!-- 
+   		
+   		접근(access) 거부(denied) 처리(handler) : URI 지정
+   		
+   		사용자 정의 접근 거부 처리자
+   		
+   		customAccessDenied : 빈(bean, 객체)명
+   		 -->
+	<!--  이 경로로 다시 요청하는 내용이어서 리다이렉트로 보내는 것
+	<security:access-denied-handler error-page="/accessError"/> 
+	리다이렉트로 /accessError 페이지로 보냄
+	
+	포워딩은 내가 교촌치킨에 오리지널 치킨을 주문하고 주문한 치킨이 나에게 오는 것
+	주소 표시줄이 안바뀌고 유지됨.
+	데이터를 담아서 보낼 수 있음.
+	
+	리다이렉트는 내가 교촌치킨에 오리지널 치킨을 주문하고 오리지널이 없으면 갈릭을 주세요라고 요구사항을 걸고
+	그러면 교촌에서 내게 오리지널이 떨어졌어요 갈릭을 주문해주세요 라고 응답을 보내고
+	그러면 내가 교촌에 갈릭으로 보내주세요라고 요청함 > 굽네가 있는 갈릭을 보내주는 것
+	주소 표시줄이 해당 경로로 바뀜.
+	데이터를 담아서 보낼 수 없음.
+	-->
+  	<security:access-denied-handler ref="customAccessDenied"/>
+   
+   <!-- 
+   	로그아웃 처리 
+   
+	<form action = "/logout" mehtod="post">
+		<input type="submit" value="로그아웃"/>
+		<sec:csrfInput/>
+	<form>	    
+	
+   	-->
+   <security:logout logout-url="/logout" invalidate-session="true"/>
    </security:http>
    
    <!-- authentication(인증) 매니저 
@@ -30,18 +72,32 @@
    		but, 우리는 연습 중이므로 암호화 처리기를 사용하지 않을 것임 
    		그리하여 noop 문자열을 비밀번호 앞에 사용
    -->
+   
+   <!-- 
+   JDBC : Java DataBase Connectivity 드라이버
+   
+   1. 지정된 테이블 및 스키마(컬럼명, 자료형, 크기, 제약사항)로 테이블 생성시 JDBC를 이용하여 인증/인가 처리 가능
+   	- USERS : 사용자 테이블 
+   	- AUTHORITIES : 권한 테이블
+   2. 사용자 정의 테이블 및 스키마
+	
+    -->
    <security:authentication-manager>
    		<!-- 인증 제공자 -->
    		<security:authentication-provider>
-   			<security:user-service>
+   			<!-- 데이터베이스 관련 접속 정보를 끌어옴 -->
+   			<security:jdbc-user-service data-source-ref="dataSource"/>
+			<!-- 비밀번호 암호화를 하지 않겠다는 설정 -->
+			<security:password-encoder ref="cutomPasswordEncoder"/>
+<!--    	<security:user-service> -->
    				<!-- name : 유저 아이디  
    					authorities 권한 
    					아이디가 member 인 유저의 권한은 ROLE_MEMBER 임
    				-->
-   				<security:user name="member" password ="{noop}java" authorities="ROLE_MEMBER"/>
+<!--    				<security:user name="member" password ="{noop}java" authorities="ROLE_MEMBER"/> -->
    				<!-- 아이디가 admin인 유저의 권한은 ROLE_MEMBER, ROLE_ADMIN 임 -->
-   				<security:user name="admin" password="{noop}java" authorities="ROLE_MEMBER,ROLE_ADMIN"/>
-   			</security:user-service>
+<!--    				<security:user name="admin" password="{noop}java" authorities="ROLE_MEMBER,ROLE_ADMIN"/> -->
+<!--    			</security:user-service> -->
    		</security:authentication-provider>
    </security:authentication-manager>
 </beans>
