@@ -69,4 +69,10 @@ public class MemberServiceImpl implements IMemberService{
 		mapper.delete(userNo);
 	}
 
+	
+	// 스프링에서 로그인에 사용할 Select 문
+	@Override
+	public MemberVO select (int userNo) {
+		return this.mapper.select(userNo);
+	}
 }

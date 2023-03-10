@@ -16,4 +16,7 @@ public interface IMemberService {
 
 	public void remove(int userNo) throws Exception;
 
+	public MemberVO select(int userNo);
+
 }
+ 

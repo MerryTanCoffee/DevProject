@@ -11,13 +11,13 @@ import kr.or.ddit.vo.test.DDITMemberVO;
 
 public interface INoticeService {
 
-	public ServiceResult insertNotice(HttpServletRequest req, NoticeVO noticeVO);
-
 	public NoticeVO selectNotice(int boNo);
-
+	
 	public int selectNoticeCount(PaginationInfoVO<NoticeVO> pagingVO);
-
+	
 	public List<NoticeVO> selectNoticeList(PaginationInfoVO<NoticeVO> pagingVO);
+
+	public ServiceResult insertNotice(HttpServletRequest req, NoticeVO noticeVO);
 
 	public ServiceResult updateNotice(HttpServletRequest req, NoticeVO notice);
 

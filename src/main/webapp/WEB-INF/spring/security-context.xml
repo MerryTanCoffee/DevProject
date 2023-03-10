@@ -12,7 +12,13 @@
    <bean id = "customLoginSuccess" class ="kr.or.ddit.security.CustomLoginSuccessHandler"></bean> 
    <!-- 비밀번호 암호화를 하지 않겠다 라는 의미 -->
    <bean id = "cutomPasswordEncoder" class = "kr.or.ddit.security.CustomNoOpPasswordEncoder"></bean>
-   		
+   	
+   	<!-- 
+   		스프링 시큐리티의 UserDetails를 구현한 클래스를 빈으로 등록
+   	 	우리들이 만든 테이블(member, member_auth) 을 사용하여 인증/인가를 처리하기 위함
+   	 -->
+   	 
+   <bean id="customUserDetailService" class="kr.or.ddit.security.CustomUserDetailService"></bean>		
    <!-- xmlns는 xml namespace -->
    <security:http>
    		<!-- URI 패턴으로 접근 제한을 설정(URI가 URL을 포함 URL에 기능을 추가하면 URI가 됨 -->
@@ -83,10 +89,14 @@
 	
     -->
    <security:authentication-manager>
-   		<!-- 인증 제공자 -->
-   		<security:authentication-provider>
+   		<!-- 
+   		인증 공급자 
+   		UserDetailsService : 스프링 시큐리티에서 제공해줌
+   		UserDetails의 멤버변수 : username, password, enabled
+   		-->
+   		<security:authentication-provider user-service-ref="customUserDetailService">
    			<!-- 데이터베이스 관련 접속 정보를 끌어옴 -->
-   			<security:jdbc-user-service data-source-ref="dataSource"/>
+<!--    			<security:jdbc-user-service data-source-ref="dataSource"/> -->
 			<!-- 비밀번호 암호화를 하지 않겠다는 설정 -->
 			<security:password-encoder ref="cutomPasswordEncoder"/>
 <!--    	<security:user-service> -->

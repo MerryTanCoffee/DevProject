@@ -6,8 +6,10 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.or.ddit.service.IMemberService;
 import kr.or.ddit.vo.MemberVO;
@@ -83,4 +85,13 @@ public class CrudMemberController {
 		return "crud/member/success";
 	}
 	
+	// 요청 URI: /loginTest
+	// 요청 파라미터: userNo=2
+	@GetMapping("/loginTest")
+	public String loginTest(@RequestParam int userNo) throws Exception {
+		log.info("userNo : " + userNo);
+		MemberVO memberVO =  this.memberService.select(userNo);
+		log.info("memberVO : " + memberVO);
+		return null;
+	}
 }

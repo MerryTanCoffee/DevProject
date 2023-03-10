@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.or.ddit.service.IMemberService;
 import kr.or.ddit.vo.Address;
 import kr.or.ddit.vo.FileMember;
 import kr.or.ddit.vo.Member;
@@ -22,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class MemberController {
-
+	
 	/*
 	 * 5장 : 컨트롤러 요청 처리
 	 * 
