@@ -62,7 +62,7 @@
 	</insert>
 	
 	<delete id = "remove" parameterType="int">
-		delete from board where board_no = #{boardNo}	
+		delete from board where board_no2 = #{boardNo}	
 	</delete>
 	
 	<select id="search" parameterType="board" resultType="board">
@@ -76,6 +76,7 @@
 		</if>
 		order by board_no desc
 	</select>
+		
 		
 	
 </mapper>

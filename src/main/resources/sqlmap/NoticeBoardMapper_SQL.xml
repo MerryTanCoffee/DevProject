@@ -22,8 +22,20 @@
 		<collection property="noticeFileList" resultMap="noticeFileMap"/>
 	</resultMap>
 	
+	<resultMap type ="noticeVO" id = "noticeMap2">
+		<result property="rnum" column="RNUM"/>
+		<result property="boNo" column="BO_NO"/>
+		<result property="boTitle" column="BO_TITLE"/>
+		<result property="boContent" column="BO_CONTENT"/>
+		<result property="boWriter" column="BO_WRITER"/>
+		<result property="boDate" column="BO_DATE"/>
+		<result property="boHit" column="BO_HIT"/>
+		<collection property="noticeFileList" resultMap="noticeFileMap"/>
+	</resultMap>
+	
 	<resultMap type="noticeFileVO" id="noticeFileMap">
 		<id property="fileNo" column="file_no"/>
+		<result property="boNo" column="BO_NO"/>
 		<result property="fileNo" column="file_no"/>
 		<result property="fileName" column="FILE_NAME"/>
 		<result property="fileSize" column="FILE_SIZE"/>
@@ -33,7 +45,20 @@
 		<result property="fileDowncount" column="FILE_DOWNCOUNT"/>
 	</resultMap>
 
-
+	<!-- 공지사항(NOTICE) + 공지사항 첨부파일(NOTICEFILE) 목록 -->
+	<select id="selectListNotice" resultMap="noticeMap2">
+	select row_number() over(order by t.bo_no desc) rnum
+		,t.*
+	from
+	(
+		select a.BO_NO, a.BO_TITLE, a.BO_CONTENT, a.BO_WRITER, a.BO_DATE, a.BO_HIT,
+		b.FILE_NO, b.FILE_NAME, b.FILE_SIZE, b.FILE_FANCYSIZE, b.FILE_MIME, b.FILE_SAVEPATH, b.FILE_DOWNCOUNT
+		from notice A, noticefile b
+		where 1=1
+		and a.bo_no = b.bo_no(+)
+	) T
+	
+	</select>
 
 	<insert id="insertNotice" parameterType="noticeVO" useGeneratedKeys="true">
 		<selectKey keyProperty="boNo" resultType="int" order="BEFORE">
@@ -132,4 +157,26 @@
 		delete from noticefile
 		where file_no = #{fileNo}	
 	</delete>
+	
+	
+	<delete id="deleteNoticeFileByBoNo" parameterType="int">
+		delete from noticefile
+		where bo_no = #{boNo}
+	</delete>
+	
+	<select id="noticeDownload" parameterType="int" resultType="noticeFileVO">
+		
+		select file_no, bo_no, file_name, file_size, file_fancysize, file_savepath,
+			file_downcount
+		from noticefile
+		where file_no = #{fileNo}		
+	</select>
+	
+	<update id="incrementNoticeDowncount" parameterType="int">
+		update noticefile
+			set
+				file_downcount=file_downcount + 1
+			where file_no = #{fileNo}	
+		
+	</update>
 </mapper>

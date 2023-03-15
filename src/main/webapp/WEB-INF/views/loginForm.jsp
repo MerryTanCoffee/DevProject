@@ -24,6 +24,9 @@
 <p><input type ="text" name = "username" value="" placeholder="아이디 입력 필"/></p>
 <p><input type ="password" name = "password" value="" placeholder="비밀번호 입력 필"/></p>
 <p><input type = "submit" value = "로그인"/></p>
+
+<!-- 로그인 상태 유지 체크박스 -->
+<p><input type="checkbox" name="remember-me"/>Remeber Me</p>
 <sec:csrfInput/>
 </form>
 

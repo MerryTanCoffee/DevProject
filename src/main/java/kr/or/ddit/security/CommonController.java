@@ -54,7 +54,7 @@ public class CommonController {
 		
 		//forwarding
 		// views > loginForm.jsp를 forwarding
-		
-		return "loginForm";
+		// <definition name="*/*" extends = "tiles-layout">
+		return "member/loginForm";
 	}
 }

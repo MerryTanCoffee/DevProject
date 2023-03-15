@@ -90,7 +90,7 @@ public class NoticeLoginController {
 	}
 	
 	@RequestMapping(value = "/signup.do", method = RequestMethod.POST)
-	public String signup(DDITMemberVO memberVO, Model model) {
+	public String signup(HttpServletRequest req, DDITMemberVO memberVO, Model model) {
 		
 		String goPage= "";
 		
@@ -111,7 +111,7 @@ public class NoticeLoginController {
 			model.addAttribute("member",memberVO);
 			goPage = "conn/register";
 		} else {
-			ServiceResult result = noticeService.signup(memberVO);
+			ServiceResult result = noticeService.signup(req, memberVO);
 			if(result.equals(ServiceResult.OK)) {
 				goPage = "redirect:/notice/login.do?stat=1";
 			

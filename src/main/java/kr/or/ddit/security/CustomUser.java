@@ -11,7 +11,8 @@ import org.springframework.security.core.userdetails.User;
 import kr.or.ddit.vo.MemberVO;
 
 public class CustomUser extends User {
-
+	
+	// jsp에서 principal.memberVO
 	private MemberVO memberVO;
 	
 	public CustomUser(String username, String password, 
@@ -26,7 +27,7 @@ public class CustomUser extends User {
 	//							Set<GrantedAuthority> authorities	
 	public CustomUser(MemberVO memberVO) {
 		// 사용자 아이디, 비밀번호, 권한 리스트(memberVO.getAuthList())
-		super(memberVO.getUserName(), memberVO.getUserPw(),
+		super(memberVO.getUserNo()+"", memberVO.getUserPw(),
 				memberVO.getAuthList().stream()
 				.map(auth->new SimpleGrantedAuthority(auth.getAuth()))
 				.collect(Collectors.toList())

@@ -2,8 +2,10 @@ package kr.or.ddit.controller.board;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.springframework.aop.support.AopUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,15 @@ public class CrudBoardController {
 
 	@Inject
 	private IBoardService boardService;
+	
+	// 빈이 등록되고 초기화 단계에서 바로 확인해야할 때
+	@PostConstruct
+	public void init() {
+		// aopProxy 상태 확인(interface 기반 프록시)
+		log.info("aopProxy  상태 : (interface 기반) : {} " + AopUtils.isAopProxy(boardService));
+		// aopProxy 상태 확인(클래스 상속 기반 프록시)
+		log.info("aopProxy  상태 : (class 상속 기반) : {} " + AopUtils.isCglibProxy(boardService));
+	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public String crudRegisterForm(Board board, Model model) {

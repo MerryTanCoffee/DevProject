@@ -30,8 +30,8 @@ public class NoticeInsertController {
    public String noticeForm() {
       return "notice/form";
    }
-   @PostMapping("/insert.do")
    
+   @PostMapping("/insert.do")
    public String noticeInsert(
          HttpServletRequest req,
          NoticeVO noticeVO,

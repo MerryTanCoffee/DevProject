@@ -35,25 +35,25 @@
 							<c:if test ="${not empty notice.noticeFileList }">
 								<c:forEach items = "${notice.noticeFileList }" var = "noticeFile">
 								<li>
-								<span class="mailbox-attachment-icon"> 
-								<i class="far fa-file-pdf"></i> 
-								</span>
+									<span class="mailbox-attachment-icon"> 
+										<i class="far fa-file-pdf"></i> 
+									</span>
 									<div class="mailbox-attachment-info">
 										<a href="#" class="mailbox-attachment-name"> 
 										<i class="fas fa-paperclip"></i> ${noticeFile.fileName }</a>
 										<span class="mailbox-attachment-size clearfix mt-1"> 
-										<span> ${noticeFile.fileFancysize }</span> 
-										<c:url value="/notice/download.do" var ="downloadURL">
-											<c:param name = "fileNo" value="${noticeFile.fileNo }"/>
-										</c:url>
-										<a href="${downloadUrl }"> 
-										<span class="btn btn-default btn-sm float-right"> 
-											<i class="fas fa-download"></i>
-										</span>
-										</a>
+											<span> ${noticeFile.fileFancysize }</span> 
+											<c:url value="/notice/download.do" var ="downloadURL">
+												<c:param name = "fileNo" value="${noticeFile.fileNo }"/>
+											</c:url>
+											<a href="${downloadURL }"> 
+												<span class="btn btn-default btn-sm float-right"> 
+													<i class="fas fa-download"></i>
+												</span>
+											</a>
 										</span>
 									</div>
-									</li>
+								</li>
 								</c:forEach>	
 							</c:if>	
 							</ul>

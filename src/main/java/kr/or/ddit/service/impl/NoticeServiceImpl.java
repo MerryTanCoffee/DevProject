@@ -1,6 +1,7 @@
 package kr.or.ddit.service.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
@@ -10,11 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.ServiceResult;
 import kr.or.ddit.controller.noticeboard.web.TelegramSendController;
 import kr.or.ddit.mapper.LoginMapper;
 import kr.or.ddit.mapper.NoticeMapper;
+import kr.or.ddit.mapper.ProfileMapper;
 import kr.or.ddit.service.INoticeService;
 import kr.or.ddit.vo.NoticeFileVO;
 import kr.or.ddit.vo.NoticeVO;
@@ -29,6 +32,9 @@ public class NoticeServiceImpl implements INoticeService{
 	
 	@Autowired
 	private LoginMapper loginMapper;
+
+	@Autowired
+	private ProfileMapper profileMapper;
 	
 	TelegramSendController tst = new TelegramSendController();
 	
@@ -107,16 +113,53 @@ public class NoticeServiceImpl implements INoticeService{
 	}
 
 	@Override
-	public ServiceResult deleteNotice(int boNo) {
+	public ServiceResult deleteNotice(HttpServletRequest req, int boNo) {
 		
 		ServiceResult result = null;
+		NoticeVO noticeVO = noticeMapper.selectNotice(boNo);
+		noticeMapper.deleteNoticeFileByBoNo(boNo);
 		int cnt = noticeMapper.deleteNotice(boNo);
 		if(cnt > 0) {
+			List<NoticeFileVO> noticeFileList = noticeVO.getNoticeFileList();
+			
+			try {
+				if(noticeFileList != null) {
+					String[] filePath = noticeFileList.get(0).getFileSavePath().split("/");
+					int cutNum = noticeFileList.get(0).getFileSavePath().lastIndexOf(filePath[filePath.length-1]);
+					String path = noticeFileList.get(0).getFileSavePath().substring(0,cutNum);
+					deleteFolder(req,path);
+				}
+				
+			} catch (Exception e ){
+				e.printStackTrace();
+			}
 			result = ServiceResult.OK;
 		} else {
 			result = ServiceResult.FAILED;
 		}
 		return result;
+	}
+
+	private void deleteFolder(HttpServletRequest req, String path) {
+		File folder = new File(path);
+		
+		try {
+			
+			if(folder.exists()) {
+				File[] folderList = folder.listFiles();
+				
+				for(int i = 0; i < folderList.length; i++) { // 폴더 안에 있는 파일이 파일 일 때
+					if(folderList[i].isFile()) {
+						folderList[i].delete(); 
+					} else { // 폴더 안에 있는 파일 이 폴더 일때 재귀함수 호출(폴더 안으로 들어가기)
+						deleteFolder(req, folderList[i].getPath());
+					}
+				}
+				folder.delete(); // 폴더 삭제
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -134,9 +177,35 @@ public class NoticeServiceImpl implements INoticeService{
 	}
 
 	@Override
-	public ServiceResult signup(DDITMemberVO memberVO) {
+	public ServiceResult signup(HttpServletRequest req, DDITMemberVO memberVO) {
 		
 		ServiceResult result = null;
+		
+		String uploadPath = req.getServletContext().getRealPath("/resources/profile");
+		File file = new File(uploadPath);
+		if(!file.exists()) {
+			file.mkdirs();
+		}
+		
+		
+		String profileImg = "";
+		try {
+			MultipartFile profileImgFile = memberVO.getImgFile();
+			if(profileImgFile.getOriginalFilename() != null
+					&& !profileImgFile.getOriginalFilename().equals("")) {
+				String fileName = UUID.randomUUID().toString();
+				fileName += "_" + profileImgFile.getOriginalFilename();
+				uploadPath += "/" + fileName;
+				profileImgFile.transferTo(new File(uploadPath));
+				profileImg = "/resources/profile/" +fileName;
+			}
+			 memberVO.setMemProfileImg(profileImg);
+		} catch(IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		int status = loginMapper.signup(memberVO);
 	
 		if(status > 0) {
@@ -193,5 +262,68 @@ public class NoticeServiceImpl implements INoticeService{
 			//	is.close();
 			}
 		}
+		
+	}
+	@Override
+	public List<NoticeVO> selectListNotice()  {
+		return this.noticeMapper.selectListNotice();
+		
+	}
+
+	@Override
+	public NoticeFileVO noticeDownload(int fileNo) {
+		NoticeFileVO noticeFileVO = noticeMapper.noticeDownload(fileNo);
+		
+		if(noticeFileVO == null) {
+			throw new RuntimeException();
+		}
+		noticeMapper.incrementNoticeDowncount(fileNo);
+		
+		return noticeFileVO;
+	}
+
+	@Override
+	public DDITMemberVO selectMember(DDITMemberVO sessionMember) {
+		return profileMapper.selectMember(sessionMember);
+	}
+
+	@Override
+	public ServiceResult profileUpdate(HttpServletRequest req, DDITMemberVO memberVO) {
+		ServiceResult result = null;
+		
+		String uploadPath = req.getServletContext().getRealPath("/resources/profile");
+		File file = new File(uploadPath);
+		if(!file.exists()) {
+			file.mkdirs();
+		}
+		
+		
+		String profileImg = "";
+		try {
+			MultipartFile profileImgFile = memberVO.getImgFile();
+			if(profileImgFile.getOriginalFilename() != null
+					&& !profileImgFile.getOriginalFilename().equals("")) {
+				String fileName = UUID.randomUUID().toString();
+				fileName += "_" + profileImgFile.getOriginalFilename();
+				uploadPath += "/" + fileName;
+				profileImgFile.transferTo(new File(uploadPath));
+				profileImg = "/resources/profile/" +fileName;
+			}
+			 memberVO.setMemProfileImg(profileImg);
+		} catch(IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		int status = profileMapper.profileUpdate(memberVO);
+	
+		if(status > 0) {
+			result = ServiceResult.OK;
+		} else {
+			result = ServiceResult.FAILED;
+		}
+		
+		return result;
 	}
 }

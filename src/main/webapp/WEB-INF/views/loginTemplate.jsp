@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/dist/css/adminlte.min.css">
   <script type="text/javascript" src = "${pageContext.request.contextPath }/resources/plugins/jquery/jquery.min.js"></script>
 </head>
-
 <c:if test="${not empty message }">
 <script type="text/javascript">
 alert("${message}");
@@ -22,12 +21,20 @@ alert("${message}");
 <c:remove var="message" scope="session"/>
 </script>
 </c:if>
-	<div class="hold-transition ${bodyText }">
+<body class="hold-transition ${bodyText }">
 			<!-- content 위치 -->
 			<tiles:insertAttribute name = "content"/>
 		
-	</div>
 
 <script src="${pageContext.request.contextPath }/resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/dist/js/adminlte.min.js"></script>
+
+
+		<script src="${pageContext.request.contextPath }/resources/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		bsCustomFileInput.init();
+	});
+	</script>
+</body>
 </html>

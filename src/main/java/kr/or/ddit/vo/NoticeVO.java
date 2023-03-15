@@ -11,10 +11,12 @@ import lombok.Data;
 @Data
 public class NoticeVO {
 	private int boNo;
+	private int rnum;
 	private String boTitle;
 	private String boContent;
 	private String boWriter;
 	private String boDate;
+	// notice : noticefile = 1 : N
 	private String boHit;
 	
 	

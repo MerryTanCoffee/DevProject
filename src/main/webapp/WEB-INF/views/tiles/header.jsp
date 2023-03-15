@@ -20,7 +20,7 @@
 					class="img-circle elevation-2" alt="User Image">
 			</div>
 			<div class="info">
-				<a href="#" class="d-block">DDIT Spring</a>
+				<a href="/notice/profile.do" class="d-block">${sessionScope.SessionInfo.memName }</a>
 			</div>
 		</div>
 		<nav class="mt-2">

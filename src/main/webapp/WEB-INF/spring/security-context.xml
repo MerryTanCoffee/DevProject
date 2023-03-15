@@ -61,6 +61,30 @@
 	-->
   	<security:access-denied-handler ref="customAccessDenied"/>
    
+   
+   	<!-- 
+   		자동 로그인
+   		로그인하면 특정 시간동안 다시 로그인 할 필요가 없음
+   		스프링 시큐리티는 메모리나 데이터베이스를 사용하여 처리.
+   		우리는 데이터베이스를 사용할 것임.
+  
+  	// 쿠키 쿠키 뉴쿠키
+  	// response add cookie 	 
+   	 cookie : 1) 크롬(클라이언트)에서 요청하고 톰켓(서버)이 만들어줌.
+   	 		  2) response 객체에 만들어진 쿠키를 담어서
+   	 		  3) 크롬의 쿠키 저장소에 넣어놓음
+   	 		  4) 크롬이 톰켓에 요청시마다 쿠키들을 툭툭 함께 보냄	
+   	 <bean id = "dataSource"..
+   	
+   	데이터 소스를 지정하고 persistent_logins 테이블을 이용하여 기존 로그인 정보를 기록함
+   	 쿠키의 유효시간을 지정함(604800초 : 7일) 
+   	 -->
+   
+   <security:remember-me data-source-ref="dataSource" 
+   	token-validity-seconds="604800"/>
+   
+   
+   
    <!-- 
    	로그아웃 처리 
    
@@ -69,8 +93,10 @@
 		<sec:csrfInput/>
 	<form>	    
 	
+	로그아웃 한 후의 세션을 무효화 함. 쿠키도 무효화
    	-->
-   <security:logout logout-url="/logout" invalidate-session="true"/>
+   <security:logout logout-url="/logout" invalidate-session="true"
+   delete-cookies="remember-me,JSESSION_ID"/>
    </security:http>
    
    <!-- authentication(인증) 매니저 

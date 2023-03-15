@@ -46,9 +46,11 @@ public class NoticeModifyController {
 	}
 	
 	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
-	public String noticeDelete(int boNo, Model model) {
+	public String noticeDelete(
+			HttpServletRequest req,
+			int boNo, Model model) {
 		String gopage = "";
-		ServiceResult result = noticeService.deleteNotice(boNo);
+		ServiceResult result = noticeService.deleteNotice(req, boNo);
 		if(result.equals(ServiceResult.OK)) {
 			gopage = "redirect:/notice/list.do";
 			
