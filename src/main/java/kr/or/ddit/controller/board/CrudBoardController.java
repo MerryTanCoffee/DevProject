@@ -29,7 +29,7 @@ public class CrudBoardController {
 	@PostConstruct
 	public void init() {
 		// aopProxy 상태 확인(interface 기반 프록시)
-		log.info("aopProxy  상태 : (interface 기반) : {} " + AopUtils.isAopProxy(boardService));
+//		log.info("aopProxy  상태 : (interface 기반) : {} " + AopUtils.isAglasopProxy(boardService));
 		// aopProxy 상태 확인(클래스 상속 기반 프록시)
 		log.info("aopProxy  상태 : (class 상속 기반) : {} " + AopUtils.isCglibProxy(boardService));
 	}
@@ -41,17 +41,17 @@ public class CrudBoardController {
 		return "crud/register";
 	}
 	@RequestMapping(value="/register", method = RequestMethod.POST)
-	public String crudRegister(@Validated Board board, BindingResult result, Model model) throws Exception {
+	public String crudRegister(@Validated Board board, Model model) throws Exception {
 		log.info("crudRegister() : ");
 		
 		// 등록 기능 요청(서비스)
 		boardService.register(board);
 		
-		if(board.getBoardNo()>0) {
-			// 띄어쓰기 있으면 안됨
-			return "redirect:/crud/board/read?boardNo=" + board.getBoardNo();
-		}
-		model.addAttribute("msg","등록 완료");
+//		if(board.getBoardNo()>0) {
+//			// 띄어쓰기 있으면 안됨
+//			return "redirect:/crud/board/read?boardNo=" + board.getBoardNo();
+//		}
+//		model.addAttribute("msg","등록 완료");
 		return "crud/success";
 	}
 	
